@@ -39,5 +39,25 @@ namespace DG.Color
                    _green == other._green &&
                    _blue == other._blue;
         }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 1838352370;
+            hashCode = hashCode * -1521134295 + _alpha.GetHashCode();
+            hashCode = hashCode * -1521134295 + _red.GetHashCode();
+            hashCode = hashCode * -1521134295 + _green.GetHashCode();
+            hashCode = hashCode * -1521134295 + _blue.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(RgbaValues left, RgbaValues right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(RgbaValues left, RgbaValues right)
+        {
+            return !(left == right);
+        }
     }
 }
