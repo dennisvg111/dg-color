@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DG.Common;
+using System;
 
 namespace DG.Color
 {
@@ -58,17 +55,11 @@ namespace DG.Color
 
         public override int GetHashCode()
         {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hash = 17;
-                int multiplyPrime = 486187739;
-                // Suitable nullity checks etc, of course :)
-                hash = hash * multiplyPrime + _red.GetHashCode();
-                hash = hash * multiplyPrime + _green.GetHashCode();
-                hash = hash * multiplyPrime + _blue.GetHashCode();
-                hash = hash * multiplyPrime + _alpha.GetHashCode();
-                return hash;
-            }
+            return HashCode
+                .Of(_red)
+                .And(_green)
+                .And(_blue)
+                .And(_alpha);
         }
 
         public static bool operator ==(RgbaValues left, RgbaValues right)
