@@ -30,7 +30,7 @@ namespace DG.Color
         /// <returns></returns>
         public T To<T>() where T : ConvertibleColor<T>
         {
-            var color = Uninitialized<T>.Instance;
+            var color = UnsafeInstanceOf<T>.Shared;
             return color.NewInstanceFrom(Values);
         }
 
