@@ -7,6 +7,8 @@
     public abstract class ConvertibleColor<TColor> : BaseColor where TColor : ConvertibleColor<TColor>
     {
         /// <summary>
+        /// Returns a new instance of <typeparamref name="TColor"/>, converted from the given <see cref="RgbaValues"/> values.
+        /// <para></para>
         /// Note that this method will always be called on an instance created using a parameterless constructor.
         /// </summary>
         /// <param name="values"></param>

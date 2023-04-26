@@ -3,6 +3,9 @@ using System;
 
 namespace DG.Color
 {
+    /// <summary>
+    /// Represents the Red, Green, Blue, and Alpha values of a color in sRGB color space.
+    /// </summary>
     public readonly struct RgbaValues : IEquatable<RgbaValues>
     {
         private const double _redOpticalWeight = 0.2126;
@@ -14,6 +17,13 @@ namespace DG.Color
         private readonly byte _blue;
         private readonly float _alpha;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="RgbaValues"/>.
+        /// </summary>
+        /// <param name="red"></param>
+        /// <param name="green"></param>
+        /// <param name="blue"></param>
+        /// <param name="alpha"></param>
         public RgbaValues(byte red, byte green, byte blue, float alpha = 1)
         {
             _red = red;
@@ -22,8 +32,19 @@ namespace DG.Color
             _alpha = alpha;
         }
 
+        /// <summary>
+        /// The red byte of this color.
+        /// </summary>
         public byte Red => _red;
+
+        /// <summary>
+        /// The green byte of this color.
+        /// </summary>
         public byte Green => _green;
+
+        /// <summary>
+        /// The blue byte of this color.
+        /// </summary>
         public byte Blue => _blue;
 
         /// <summary>
@@ -47,16 +68,19 @@ namespace DG.Color
             }
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is RgbaValues values && Equals(values);
         }
 
+        /// <inheritdoc/>
         public bool Equals(RgbaValues other)
         {
             return _red == other._red && _green == other._green && _blue == other._blue && _alpha == other._alpha;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return HashCode
@@ -66,25 +90,42 @@ namespace DG.Color
                 .And(_alpha);
         }
 
+        /// <summary>
+        /// Returns a value indicating if the two colors are equal.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator ==(RgbaValues left, RgbaValues right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Returns a value indicating if the two colors are not equal.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator !=(RgbaValues left, RgbaValues right)
         {
             return !(left == right);
         }
 
         /// <summary>
-        /// Gets the 32-bit ARGB value of this <see cref="BaseColor{TColor}"/> structure.
+        /// Gets the 32-bit ARGB value of this <see cref="RgbaValues"/> structure.
         /// </summary>
-        /// <returns>The 32-bit ARGB value of this <see cref="BaseColor{TColor}"/></returns>
+        /// <returns>The 32-bit ARGB value of this <see cref="RgbaValues"/></returns>
         public int ToArgb()
         {
             return (AlphaByte << 24) | (_red << 16) | (_green << 8) | _blue;
         }
 
+        /// <summary>
+        /// Creates a new <see cref="RgbaValues"/> instance from the given 32-bit ARGB value.
+        /// </summary>
+        /// <param name="argb"></param>
+        /// <returns></returns>
         public static RgbaValues FromArgb(int argb)
         {
             byte[] bytes = new byte[4];
@@ -117,7 +158,7 @@ namespace DG.Color
         }
 
         /// <summary>
-        /// Returns a new instance of <see cref="RgbaValues"/> with the R, G, and B values inverted.
+        /// Returns a new instance of <see cref="RgbaValues"/> with the Red, Green, and Blue values inverted.
         /// </summary>
         /// <returns></returns>
         public RgbaValues Invert()

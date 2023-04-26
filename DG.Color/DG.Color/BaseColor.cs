@@ -21,6 +21,10 @@ namespace DG.Color
             }
         }
 
+        /// <summary>
+        /// Convert this color to the matching <see cref="RgbaValues"/> values.
+        /// </summary>
+        /// <returns></returns>
         protected abstract RgbaValues ConvertToRgba();
 
         /// <summary>
@@ -35,9 +39,9 @@ namespace DG.Color
         }
 
         /// <summary>
-        /// Gets the 32-bit ARGB value of this <see cref="BaseColor{TColor}"/> structure.
+        /// Gets the 32-bit ARGB value of this <see cref="BaseColor"/> structure.
         /// </summary>
-        /// <returns>The 32-bit ARGB value of this <see cref="BaseColor{TColor}"/></returns>
+        /// <returns>The 32-bit ARGB value of this <see cref="BaseColor"/></returns>
         public int ToArgb()
         {
             return Values.ToArgb();
