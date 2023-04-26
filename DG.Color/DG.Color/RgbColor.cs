@@ -1,21 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DG.Color
+﻿namespace DG.Color
 {
-    public class RgbColor : BaseColor<RgbColor>
+    public class RgbColor : ConvertibleColor<RgbColor>
     {
-        protected override RgbaValues ConvertToRgba()
+        private readonly RgbaValues _values;
+
+        public byte Red => _values.Red;
+        public byte Green => _values.Green;
+        public byte Blue => _values.Blue;
+        public float Alpha => _values.Alpha;
+
+        public RgbColor(RgbaValues values)
         {
-            throw new NotImplementedException();
+            _values = values;
         }
 
-        protected override RgbColor CreateFromRgba(RgbaValues rgbaValues)
+        public RgbColor(byte red, byte green, byte blue, float alpha = 1) : this(new RgbaValues(red, green, blue, alpha))
         {
-            throw new NotImplementedException();
+
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="RgbColor"/> with the R, G, and B values inverted.
+        /// </summary>
+        /// <returns></returns>
+        public RgbColor Invert()
+        {
+            return new RgbColor(_values.Invert());
+        }
+
+        protected override RgbaValues ConvertToRgba()
+        {
+            return _values;
+        }
+
+        protected override RgbColor CreateFrom(RgbaValues values)
+        {
+            return new RgbColor(values);
         }
     }
 }
