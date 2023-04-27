@@ -165,5 +165,38 @@ namespace DG.Color
         {
             return new RgbaValues((byte)(byte.MaxValue - Red), (byte)(byte.MaxValue - Green), (byte)(byte.MaxValue - Blue), Alpha);
         }
+
+        /// <summary>
+        /// Renders the color in hexadecimal format.
+        /// </summary>
+        /// <returns></returns>
+        public string ToHexString()
+        {
+
+            string r = BitConverter.ToString(new byte[] { _red });
+            string g = BitConverter.ToString(new byte[] { _green });
+            string b = BitConverter.ToString(new byte[] { _blue });
+            if (_alpha >= 0.999f)
+            {
+                return $"#{r}{g}{b}";
+            }
+            string a = BitConverter.ToString(new byte[] { AlphaByte });
+            return $"#{r}{g}{b}{a}";
+        }
+
+        /// <summary>
+        /// Renders the color in rgba format.
+        /// </summary>
+        /// <returns></returns>
+        public string ToRgbaString()
+        {
+            return $"rgba(" + _red + ", " + _green + ", " + _blue + ", " + _alpha.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ")";
+        }
+
+        /// <inheritdoc cref="ToHexString"/>
+        public override string ToString()
+        {
+            return ToHexString();
+        }
     }
 }

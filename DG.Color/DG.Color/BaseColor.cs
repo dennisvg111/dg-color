@@ -8,17 +8,21 @@ namespace DG.Color
     /// </summary>
     public abstract class BaseColor
     {
-        private RgbaValues _values;
+        private Lazy<RgbaValues> _values;
         private RgbaValues Values
         {
             get
             {
-                if (_values == null)
-                {
-                    _values = ConvertToRgba();
-                }
-                return _values;
+                return _values.Value;
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="BaseColor"/>.
+        /// </summary>
+        protected BaseColor()
+        {
+            _values = new Lazy<RgbaValues>(() => ConvertToRgba());
         }
 
         /// <summary>
@@ -47,21 +51,16 @@ namespace DG.Color
             return Values.ToArgb();
         }
 
-        /// <summary>
-        /// Renders the color in hexadecimal format.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc cref="RgbaValues.ToHexString()"/>
         public string ToHexString()
         {
-            string r = BitConverter.ToString(new byte[] { Values.Red });
-            string g = BitConverter.ToString(new byte[] { Values.Green });
-            string b = BitConverter.ToString(new byte[] { Values.Blue });
-            if (Values.Alpha >= 0.99f)
-            {
-                return $"#{r}{g}{b}";
-            }
-            string a = BitConverter.ToString(new byte[] { Values.AlphaByte });
-            return $"#{r}{g}{b}{a}";
+            return Values.ToHexString();
+        }
+
+        /// <inheritdoc cref="RgbaValues.ToRgbaString()"/>
+        public string ToRgbaString()
+        {
+            return Values.ToRgbaString();
         }
     }
 }
