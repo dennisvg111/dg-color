@@ -167,6 +167,27 @@ namespace DG.Color
         }
 
         /// <summary>
+        /// Returns a new instance of <see cref="RgbaValues"/> where the <paramref name="red"/>, <paramref name="green"/>, and <paramref name="blue"/> values are given as <see cref="double"/> instead of <see cref="byte"/>.
+        /// <para></para>
+        /// Note this function still expects the <paramref name="red"/>, <paramref name="green"/>, and <paramref name="blue"/> values to be between 0 and 255.
+        /// </summary>
+        /// <param name="red"></param>
+        /// <param name="green"></param>
+        /// <param name="blue"></param>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        internal static RgbaValues Round(double red, double green, double blue, float alpha)
+        {
+            return new RgbaValues
+            (
+                (byte)Math.Round(red, MidpointRounding.AwayFromZero),
+                (byte)Math.Round(green, MidpointRounding.AwayFromZero),
+                (byte)Math.Round(blue, MidpointRounding.AwayFromZero),
+                alpha
+            );
+        }
+
+        /// <summary>
         /// Renders the color in hexadecimal format.
         /// </summary>
         /// <returns></returns>

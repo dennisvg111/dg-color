@@ -20,10 +20,10 @@ namespace DG.Color.Tests
 
             var hslColor = rgbColor.To<HslColor>();
 
-            Assert.InRange(hslColor.Hue, color.Hue - 1, color.Hue + 1);
-            Assert.InRange(hslColor.Saturation, color.Saturation - 1, color.Saturation + 1);
-            Assert.InRange(hslColor.Lightness, color.Lightness - 1, color.Lightness + 1);
-            Assert.InRange(hslColor.Alpha, color.Alpha - 0.001, color.Alpha + 0.001);
+            Assert.Equal(color.Hue, hslColor.Hue, 1f);
+            Assert.Equal(color.Saturation, hslColor.Saturation, 1f);
+            Assert.Equal(color.Lightness, hslColor.Lightness, 1f);
+            Assert.Equal(color.Alpha, hslColor.Alpha);
         }
 
         [Theory]

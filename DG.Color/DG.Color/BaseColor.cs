@@ -9,7 +9,7 @@ namespace DG.Color
     public abstract class BaseColor
     {
         private Lazy<RgbaValues> _values;
-        private RgbaValues Values
+        internal RgbaValues Values
         {
             get
             {
