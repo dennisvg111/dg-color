@@ -176,7 +176,7 @@ namespace DG.Color
         /// <param name="blue"></param>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        internal static RgbaValues Round(double red, double green, double blue, float alpha)
+        public static RgbaValues Round(double red, double green, double blue, float alpha)
         {
             return new RgbaValues
             (
