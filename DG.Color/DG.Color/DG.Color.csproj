@@ -3,7 +3,7 @@
     <ProjectGuid>{6B0A4893-D274-4B44-9F97-7E86C266F505}</ProjectGuid>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>DG.Color</AssemblyTitle>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <AssemblyVersion>2.0.1</AssemblyVersion>
     <Product>DG.Color</Product>
     <Copyright>Copyright ©  2023</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
