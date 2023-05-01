@@ -7,7 +7,6 @@
     {
         private readonly RgbaValues _values;
 
-
         /// <summary>
         /// The red byte of this color.
         /// </summary>
