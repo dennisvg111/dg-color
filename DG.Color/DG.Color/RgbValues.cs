@@ -4,9 +4,9 @@ using System;
 namespace DG.Color
 {
     /// <summary>
-    /// Represents the Red, Green, Blue, and Alpha values of a color in sRGB color space.
+    /// Represents the red, green, and blue values of a color in sRGB color space.
     /// </summary>
-    public readonly struct RgbaValues : IEquatable<RgbaValues>
+    public readonly struct RgbValues : IEquatable<RgbValues>
     {
         private const double _redOpticalWeight = 0.2126;
         private const double _greenOpticalWeight = 0.7152;
@@ -15,21 +15,18 @@ namespace DG.Color
         private readonly byte _red;
         private readonly byte _green;
         private readonly byte _blue;
-        private readonly float _alpha;
 
         /// <summary>
-        /// Creates a new instance of <see cref="RgbaValues"/>.
+        /// Creates a new instance of <see cref="RgbValues"/>.
         /// </summary>
         /// <param name="red"></param>
         /// <param name="green"></param>
         /// <param name="blue"></param>
-        /// <param name="alpha"></param>
-        public RgbaValues(byte red, byte green, byte blue, float alpha = 1)
+        public RgbValues(byte red, byte green, byte blue)
         {
             _red = red;
             _green = green;
             _blue = blue;
-            _alpha = alpha;
         }
 
         /// <summary>
@@ -47,37 +44,16 @@ namespace DG.Color
         /// </summary>
         public byte Blue => _blue;
 
-        /// <summary>
-        /// The alpha value, on a scale from 0 (transparent) to 1 (opaque).
-        /// </summary>
-        public float Alpha => _alpha;
-
-        internal byte AlphaByte
-        {
-            get
-            {
-                if (Alpha >= 1.0)
-                {
-                    return 255;
-                }
-                if (Alpha <= 0.0)
-                {
-                    return 0;
-                }
-                return (byte)Math.Round(Alpha * 255.0);
-            }
-        }
-
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return obj is RgbaValues values && Equals(values);
+            return obj is RgbValues values && Equals(values);
         }
 
         /// <inheritdoc/>
-        public bool Equals(RgbaValues other)
+        public bool Equals(RgbValues other)
         {
-            return _red == other._red && _green == other._green && _blue == other._blue && _alpha == other._alpha;
+            return _red == other._red && _green == other._green && _blue == other._blue;
         }
 
         /// <inheritdoc/>
@@ -86,8 +62,7 @@ namespace DG.Color
             return HashCode
                 .Of(_red)
                 .And(_green)
-                .And(_blue)
-                .And(_alpha);
+                .And(_blue);
         }
 
         /// <summary>
@@ -96,7 +71,7 @@ namespace DG.Color
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(RgbaValues left, RgbaValues right)
+        public static bool operator ==(RgbValues left, RgbValues right)
         {
             return left.Equals(right);
         }
@@ -107,26 +82,29 @@ namespace DG.Color
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(RgbaValues left, RgbaValues right)
+        public static bool operator !=(RgbValues left, RgbValues right)
         {
             return !(left == right);
         }
 
         /// <summary>
-        /// Gets the 32-bit ARGB value of this <see cref="RgbaValues"/> structure.
+        /// Gets the 32-bit ARGB value of this <see cref="RgbValues"/> structure.
         /// </summary>
-        /// <returns>The 32-bit ARGB value of this <see cref="RgbaValues"/></returns>
-        public int ToArgb()
+        /// <param name="alpha"></param>
+        /// <returns>The 32-bit ARGB value of this <see cref="RgbValues"/></returns>
+        public int ToArgb(float alpha)
         {
-            return (AlphaByte << 24) | (_red << 16) | (_green << 8) | _blue;
+            var alphaByte = (byte)alpha * 255;
+            return (alphaByte << 24) | (_red << 16) | (_green << 8) | _blue;
         }
 
         /// <summary>
-        /// Creates a new <see cref="RgbaValues"/> instance from the given 32-bit ARGB value.
+        /// Creates a new <see cref="RgbValues"/> instance from the given 32-bit ARGB value.
         /// </summary>
         /// <param name="argb"></param>
+        /// <param name="alpha"></param>
         /// <returns></returns>
-        public static RgbaValues FromArgb(int argb)
+        public static RgbValues FromArgb(int argb, out float alpha)
         {
             byte[] bytes = new byte[4];
             unchecked
@@ -136,7 +114,8 @@ namespace DG.Color
                 bytes[2] = (byte)(argb >> 8);
                 bytes[3] = (byte)(argb);
             }
-            return new RgbaValues(bytes[1], bytes[2], bytes[3], bytes[0] / 255.0f);
+            alpha = bytes[0] / 255.0f;
+            return new RgbValues(bytes[1], bytes[2], bytes[3]);
         }
 
         /// <summary>
@@ -158,32 +137,30 @@ namespace DG.Color
         }
 
         /// <summary>
-        /// Returns a new instance of <see cref="RgbaValues"/> with the Red, Green, and Blue values inverted.
+        /// Returns a new instance of <see cref="RgbValues"/> with the Red, Green, and Blue values inverted.
         /// </summary>
         /// <returns></returns>
-        public RgbaValues Invert()
+        public RgbValues Invert()
         {
-            return new RgbaValues((byte)(byte.MaxValue - Red), (byte)(byte.MaxValue - Green), (byte)(byte.MaxValue - Blue), Alpha);
+            return new RgbValues((byte)(byte.MaxValue - Red), (byte)(byte.MaxValue - Green), (byte)(byte.MaxValue - Blue));
         }
 
         /// <summary>
-        /// Returns a new instance of <see cref="RgbaValues"/> where the <paramref name="red"/>, <paramref name="green"/>, and <paramref name="blue"/> values are given as <see cref="double"/> instead of <see cref="byte"/>.
+        /// Returns a new instance of <see cref="RgbValues"/> where the <paramref name="red"/>, <paramref name="green"/>, and <paramref name="blue"/> values are given as <see cref="double"/> instead of <see cref="byte"/>.
         /// <para></para>
         /// Note this function still expects the <paramref name="red"/>, <paramref name="green"/>, and <paramref name="blue"/> values to be between 0 and 255.
         /// </summary>
         /// <param name="red"></param>
         /// <param name="green"></param>
         /// <param name="blue"></param>
-        /// <param name="alpha"></param>
         /// <returns></returns>
-        public static RgbaValues Round(double red, double green, double blue, float alpha)
+        public static RgbValues Round(double red, double green, double blue)
         {
-            return new RgbaValues
+            return new RgbValues
             (
                 (byte)Math.Round(red, MidpointRounding.AwayFromZero),
                 (byte)Math.Round(green, MidpointRounding.AwayFromZero),
-                (byte)Math.Round(blue, MidpointRounding.AwayFromZero),
-                alpha
+                (byte)Math.Round(blue, MidpointRounding.AwayFromZero)
             );
         }
 
@@ -197,12 +174,7 @@ namespace DG.Color
             string r = BitConverter.ToString(new byte[] { _red });
             string g = BitConverter.ToString(new byte[] { _green });
             string b = BitConverter.ToString(new byte[] { _blue });
-            if (_alpha >= 0.999f)
-            {
-                return $"#{r}{g}{b}";
-            }
-            string a = BitConverter.ToString(new byte[] { AlphaByte });
-            return $"#{r}{g}{b}{a}";
+            return $"#{r}{g}{b}";
         }
 
         /// <summary>
@@ -211,7 +183,7 @@ namespace DG.Color
         /// <returns></returns>
         public string ToRgbaString()
         {
-            return $"rgba(" + _red + ", " + _green + ", " + _blue + ", " + _alpha.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + ")";
+            return $"rgba({_red}, {_green}, {_blue})";
         }
 
         /// <inheritdoc cref="ToHexString"/>

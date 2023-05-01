@@ -13,7 +13,6 @@ namespace DG.Color
         private readonly float _hue;
         private readonly float _saturation;
         private readonly float _lightness;
-        private readonly float _alpha;
 
         /// <summary>
         /// The hue of this color, in degrees. This can be a value from 0 through 360.
@@ -31,18 +30,13 @@ namespace DG.Color
         public float Lightness => _lightness;
 
         /// <summary>
-        /// The alpha value, on a scale from 0 (transparent) to 1 (opaque).
-        /// </summary>
-        public float Alpha => _alpha;
-
-        /// <summary>
         /// Creates a new instance of <see cref="HslColor"/> with the given values.
         /// </summary>
         /// <param name="hue"><inheritdoc cref="Hue" path="/summary"/></param>
         /// <param name="saturation"><inheritdoc cref="Saturation" path="/summary"/></param>
         /// <param name="lightness"><inheritdoc cref="Lightness" path="/summary"/></param>
-        /// <param name="alpha"><inheritdoc cref="Alpha" path="/summary"/></param>
-        public HslColor(float hue, float saturation, float lightness, float alpha)
+        /// <param name="alpha"><inheritdoc cref="BaseColor.Alpha" path="/summary"/></param>
+        public HslColor(float hue, float saturation, float lightness, float alpha) : base(alpha)
         {
             while (hue < 0)
             {
@@ -55,7 +49,6 @@ namespace DG.Color
             _hue = hue;
             _saturation = saturation;
             _lightness = lightness;
-            _alpha = alpha;
         }
 
         /// <summary>
@@ -80,10 +73,10 @@ namespace DG.Color
             var deltaH = h2 - h1;
 
             float h, s, l, a;
-            h = interpolate(deltaH > 180 ? (h1 + 360) : h1, deltaH < -180 ? (h2 + 360) : h2, t, 1);
-            s = interpolate(_saturation, endColor._saturation, t, 1);
-            l = interpolate(_lightness, endColor._lightness, t, 1);
-            a = interpolate(_alpha, endColor._alpha, t, 1);
+            h = Interpolate(deltaH > 180 ? (h1 + 360) : h1, deltaH < -180 ? (h2 + 360) : h2, t, 1);
+            s = Interpolate(_saturation, endColor._saturation, t, 1);
+            l = Interpolate(_lightness, endColor._lightness, t, 1);
+            a = Interpolate(Alpha, endColor.Alpha, t, 1);
             while (h < 0)
             {
                 h = (360 + h) % 360;
@@ -92,7 +85,7 @@ namespace DG.Color
             return new HslColor(h, s, l, a);
         }
 
-        private static float interpolate(float startValue, float endValue, float stepNumber, float lastStepNumber)
+        private static float Interpolate(float startValue, float endValue, float stepNumber, float lastStepNumber)
         {
             return (endValue - startValue) * stepNumber / lastStepNumber + startValue;
         }
@@ -108,14 +101,14 @@ namespace DG.Color
             var hue = startingColor._hue;
             for (int i = 0; i < count; i++)
             {
-                yield return new HslColor(hue, startingColor._saturation, startingColor._lightness, startingColor._alpha);
+                yield return new HslColor(hue, startingColor._saturation, startingColor._lightness, startingColor.Alpha);
                 hue += (360 * _goldenRatio);
                 hue %= 360;
             }
         }
 
         /// <inheritdoc/>
-        protected override RgbaValues ConvertToRgba()
+        protected override RgbValues ConvertToRgba()
         {
             byte r, g, b;
             float h, s, l;
@@ -155,7 +148,7 @@ namespace DG.Color
                 g = (byte)Math.Round(tg * 255d);
                 b = (byte)Math.Round(tb * 255d);
             }
-            return new RgbaValues(r, g, b, _alpha);
+            return new RgbValues(r, g, b);
         }
 
         private static double ColorCalc(double c, double t1, double t2)
@@ -170,7 +163,7 @@ namespace DG.Color
         }
 
         /// <inheritdoc/>
-        protected override HslColor CreateFrom(RgbaValues values)
+        protected override HslColor CreateFrom(RgbValues values, float alpha)
         {
             float r = (values.Red / 255f);
             float g = (values.Green / 255f);
@@ -209,7 +202,7 @@ namespace DG.Color
                     h = 4f + (r - g) / d;
                 }
             }
-            return new HslColor((h * 60) % 360, (s * 100), (l * 100), values.Alpha);
+            return new HslColor((h * 60) % 360, (s * 100), (l * 100), alpha);
         }
     }
 }

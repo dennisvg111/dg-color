@@ -82,7 +82,7 @@ namespace DG.Color.Colorblindness
                 tempG = (v * tempG + rgb.Green) / n;
                 tempB = (v * tempB + rgb.Blue) / n;
             }
-            return new RgbColor(RgbaValues.Round(tempR, tempG, tempB, c.Alpha));
+            return new RgbColor(RgbValues.Round(tempR, tempG, tempB), color.Alpha);
         }
 
         /// <summary>
@@ -97,20 +97,19 @@ namespace DG.Color.Colorblindness
 
             // D65 in sRGB
             var z1 = rgb.Red * 0.212656 + rgb.Green * 0.715158 + rgb.Blue * 0.072186;
-            var zAnachromistic = new RgbColor(RgbaValues.Round(z1, z1, z1, rgb.Alpha));
+            var zAnachromistic = new RgbColor(RgbValues.Round(z1, z1, z1), color.Alpha);
             if (!isPartial)
             {
                 return zAnachromistic;
             }
             var v = 1.75;
             var n = v + 1;
-            var weakValues = RgbaValues.Round(
+            var weakValues = RgbValues.Round(
                 (v * zAnachromistic.Red + rgb.Red) / n,
                 (v * zAnachromistic.Green + rgb.Green) / n,
-                (v * zAnachromistic.Blue + rgb.Blue) / n,
-                zAnachromistic.Alpha
+                (v * zAnachromistic.Blue + rgb.Blue) / n
             );
-            return new RgbColor(weakValues);
+            return new RgbColor(weakValues, color.Alpha);
         }
     }
 }
