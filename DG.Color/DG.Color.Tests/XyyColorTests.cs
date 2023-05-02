@@ -18,11 +18,11 @@ namespace DG.Color.Tests
             };
         }
 
-        protected override void AssertColorEqual(XyyColor excpected, XyyColor actual)
+        protected override void AssertColorEqual(XyyColor expected, XyyColor actual)
         {
-            Assert.Equal(excpected.X, actual.X, 0.00005f);
-            Assert.Equal(excpected.SmallY, actual.SmallY, 0.00005f);
-            Assert.Equal(excpected.LargeY, actual.LargeY, 0.00005f);
+            Assert.Equal(expected.X, actual.X, 0.00005f);
+            Assert.Equal(expected.SmallY, actual.SmallY, 0.00005f);
+            Assert.Equal(expected.LargeY, actual.LargeY, 0.00005f);
         }
     }
 }
