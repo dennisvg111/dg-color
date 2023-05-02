@@ -1,30 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace DG.Color.Tests.Base
 {
-    public abstract class ColorConversionTests<T> where T : ConvertibleColor<T>
+    public abstract class ColorConversionTests<TColor, TProvider> where TColor : ConvertibleColor<TColor> where TProvider : IConversionTestDataProvider<TColor>, new()
     {
-        protected abstract void AssertColorEqual(T excpected, T actual);
+        protected abstract void AssertColorEqual(TColor excpected, TColor actual);
+
+        public static IEnumerable<object[]> GetConversionData()
+        {
+            TProvider provider = new TProvider();
+            var colors = provider.GetTestData();
+            return colors.Select(c => c.ToObjectArray());
+        }
 
         [Theory]
-#pragma warning disable xUnit1015 // MemberData must reference an existing member
-        [MemberData("GetColorData")]
-#pragma warning restore xUnit1015 // MemberData must reference an existing member
-        public void Conversion(RgbColor rgbColor, T expected)
+        [MemberData(nameof(GetConversionData))]
+        public void ConvertFromRgb(RgbColor rgbColor, TColor expected)
         {
-            var actual = rgbColor.To<T>();
+            var actual = rgbColor.To<TColor>();
 
             AssertColorEqual(expected, actual);
             Assert.Equal(expected.Alpha, actual.Alpha);
         }
 
         [Theory]
-#pragma warning disable xUnit1015 // MemberData must reference an existing member
-        [MemberData("GetColorData")]
-#pragma warning restore xUnit1015 // MemberData must reference an existing member
-        public void ReverseConversion(RgbColor expected, T color)
+        [MemberData(nameof(GetConversionData))]
+        public void ConvertToRgb(RgbColor expected, TColor color)
         {
             var actual = color.To<RgbColor>();
 
@@ -33,14 +36,14 @@ namespace DG.Color.Tests.Base
             Assert.Equal(expected.Blue, actual.Blue);
             Assert.Equal(expected.Alpha, actual.Alpha);
         }
-
-        public static IEnumerable<object[]> Unused()
-        {
-            return new List<object[]>();
-        }
     }
 
-    public class ColorConversionTestData<T> : IEnumerable<object> where T : ConvertibleColor<T>
+    public interface IConversionTestDataProvider<T> where T : ConvertibleColor<T>
+    {
+        ColorConversionTestData<T>[] GetTestData();
+    }
+
+    public class ColorConversionTestData<T>
     {
         public RgbColor RgbColor { get; set; }
         public T CorrespondingColor { get; set; }
@@ -51,14 +54,9 @@ namespace DG.Color.Tests.Base
             CorrespondingColor = correspondingColor;
         }
 
-        public IEnumerator<object> GetEnumerator()
+        public object[] ToObjectArray()
         {
-            return new List<object> { RgbColor, CorrespondingColor }.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            return new object[] { RgbColor, CorrespondingColor };
         }
     }
 }
