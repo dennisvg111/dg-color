@@ -6,7 +6,7 @@ namespace DG.Color.Tests.Base
 {
     public abstract class ColorConversionTests<TColor, TProvider> where TColor : ConvertibleColor<TColor> where TProvider : IConversionTestDataProvider<TColor>, new()
     {
-        protected abstract void AssertColorEqual(TColor excpected, TColor actual);
+        protected abstract void AssertColorEqual(TColor expected, TColor actual);
 
         public static IEnumerable<object[]> GetConversionData()
         {
