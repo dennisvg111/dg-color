@@ -32,15 +32,16 @@ namespace DG.Color
         protected BaseColor(float alpha)
         {
             ThrowIf.Number(alpha, nameof(alpha)).IsNotBetweenInclusive(0, 1);
-            _values = new Lazy<RgbValues>(() => ConvertToRgba());
             _alpha = alpha;
+
+            _values = new Lazy<RgbValues>(() => GetRgbValues());
         }
 
         /// <summary>
         /// Convert this color to the matching <see cref="RgbValues"/> values.
         /// </summary>
         /// <returns></returns>
-        protected abstract RgbValues ConvertToRgba();
+        protected abstract RgbValues GetRgbValues();
 
         /// <summary>
         /// Converts this color to any other color type that inherits from <see cref="ConvertibleColor{TColor}"/>.

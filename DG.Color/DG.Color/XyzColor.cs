@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DG.Color
 {
+    /// <summary>
+    /// A color in the CIE XYZ color space.
+    /// </summary>
     public class XyzColor : ConvertibleColor<XyzColor>
     {
         /// <summary>
@@ -45,12 +48,28 @@ namespace DG.Color
         private readonly double _y;
         private readonly double _z;
 
+        /// <summary>
+        /// The X value of this color (a mix of response curves chosen to be non-negative). This can be a value from 0 through 1.
+        /// </summary>
         public double X => _x;
 
+        /// <summary>
+        /// The Y value of this color (luminance). This can be a value from 0 through 1.
+        /// </summary>
         public double Y => _y;
 
+        /// <summary>
+        /// The Z value of this color (the S cone response). This can be a value from 0 through 1.
+        /// </summary>
         public double Z => _z;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="XyzColor"/> with the given values.
+        /// </summary>
+        /// <param name="x"><inheritdoc cref="X" path="/summary"/></param>
+        /// <param name="y"><inheritdoc cref="Y" path="/summary"/></param>
+        /// <param name="z"><inheritdoc cref="Z" path="/summary"/></param>
+        /// <param name="alpha"><inheritdoc cref="BaseColor.Alpha" path="/summary"/></param>
         public XyzColor(double x, double y, double z, float alpha) : base(alpha)
         {
             _x = x;
@@ -58,7 +77,8 @@ namespace DG.Color
             _z = z;
         }
 
-        protected override RgbValues ConvertToRgba()
+        /// <inheritdoc/>
+        protected override RgbValues GetRgbValues()
         {
             double r, g, b;
             r = _x * 3.2406f + _y * -1.5372f + _z * -0.4986f;
@@ -75,6 +95,7 @@ namespace DG.Color
             return RgbValues.Round(r * 255, g * 255, b * 255);
         }
 
+        /// <inheritdoc/>
         protected override XyzColor CreateFrom(RgbValues values, float alpha)
         {
 

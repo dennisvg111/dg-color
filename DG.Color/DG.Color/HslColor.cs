@@ -108,7 +108,7 @@ namespace DG.Color
         }
 
         /// <inheritdoc/>
-        protected override RgbValues ConvertToRgba()
+        protected override RgbValues GetRgbValues()
         {
             byte r, g, b;
             float h, s, l;

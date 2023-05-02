@@ -54,7 +54,7 @@
         }
 
         /// <inheritdoc/>
-        protected override RgbValues ConvertToRgba()
+        protected override RgbValues GetRgbValues()
         {
             return _values;
         }

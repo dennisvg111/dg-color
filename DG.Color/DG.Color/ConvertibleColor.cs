@@ -1,7 +1,9 @@
 ﻿namespace DG.Color
 {
     /// <summary>
-    ///  Note that the generic parameter <typeparamref name="TColor"/> should be the color class itself.
+    /// <inheritdoc cref="BaseColor"/>
+    /// <para></para>
+    /// Note that the generic parameter <typeparamref name="TColor"/> should be the color class itself.
     /// </summary>
     /// <typeparam name="TColor"></typeparam>
     public abstract class ConvertibleColor<TColor> : BaseColor where TColor : ConvertibleColor<TColor>
