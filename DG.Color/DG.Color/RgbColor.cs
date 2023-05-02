@@ -5,8 +5,7 @@
     /// </summary>
     public class RgbColor : ConvertibleColor<RgbColor>
     {
-        private readonly RgbaValues _values;
-
+        private readonly RgbValues _values;
 
         /// <summary>
         /// The red byte of this color.
@@ -24,15 +23,11 @@
         public byte Blue => _values.Blue;
 
         /// <summary>
-        /// The alpha value, on a scale from 0 (transparent) to 1 (opaque).
-        /// </summary>
-        public float Alpha => _values.Alpha;
-
-        /// <summary>
         /// Creates a new instance of <see cref="RgbColor"/> with the given values.
         /// </summary>
         /// <param name="values"></param>
-        public RgbColor(RgbaValues values)
+        /// <param name="alpha"></param>
+        public RgbColor(RgbValues values, float alpha) : base(alpha)
         {
             _values = values;
         }
@@ -44,7 +39,7 @@
         /// <param name="green"></param>
         /// <param name="blue"></param>
         /// <param name="alpha"></param>
-        public RgbColor(byte red, byte green, byte blue, float alpha = 1) : this(new RgbaValues(red, green, blue, alpha))
+        public RgbColor(byte red, byte green, byte blue, float alpha = 1) : this(new RgbValues(red, green, blue), alpha)
         {
 
         }
@@ -55,19 +50,19 @@
         /// <returns></returns>
         public RgbColor Invert()
         {
-            return new RgbColor(_values.Invert());
+            return new RgbColor(_values.Invert(), Alpha);
         }
 
         /// <inheritdoc/>
-        protected override RgbaValues ConvertToRgba()
+        protected override RgbValues GetRgbValues()
         {
             return _values;
         }
 
         /// <inheritdoc/>
-        protected override RgbColor CreateFrom(RgbaValues values)
+        protected override RgbColor CreateFrom(RgbValues values, float alpha)
         {
-            return new RgbColor(values);
+            return new RgbColor(values, alpha);
         }
     }
 }

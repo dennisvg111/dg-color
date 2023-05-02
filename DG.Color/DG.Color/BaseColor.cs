@@ -1,4 +1,5 @@
-﻿using DG.Common.InstanceManagement;
+﻿using DG.Common.Exceptions;
+using DG.Common.InstanceManagement;
 using System;
 
 namespace DG.Color
@@ -8,8 +9,8 @@ namespace DG.Color
     /// </summary>
     public abstract class BaseColor
     {
-        private Lazy<RgbaValues> _values;
-        private RgbaValues Values
+        private Lazy<RgbValues> _values;
+        internal RgbValues Values
         {
             get
             {
@@ -17,19 +18,30 @@ namespace DG.Color
             }
         }
 
+        private readonly float _alpha;
+
         /// <summary>
-        /// Initializes a new instance of <see cref="BaseColor"/>.
+        /// The alpha value, on a scale from 0 (transparent) to 1 (opaque).
         /// </summary>
-        protected BaseColor()
+        public float Alpha => _alpha;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="BaseColor"/>, with the given <paramref name="alpha"/> value.
+        /// </summary>
+        /// <param name="alpha"><inheritdoc cref="Alpha" path="/summary"/></param>
+        protected BaseColor(float alpha)
         {
-            _values = new Lazy<RgbaValues>(() => ConvertToRgba());
+            ThrowIf.Number(alpha, nameof(alpha)).IsNotBetweenInclusive(0, 1);
+            _alpha = alpha;
+
+            _values = new Lazy<RgbValues>(() => GetRgbValues());
         }
 
         /// <summary>
-        /// Convert this color to the matching <see cref="RgbaValues"/> values.
+        /// Convert this color to the matching <see cref="RgbValues"/> values.
         /// </summary>
         /// <returns></returns>
-        protected abstract RgbaValues ConvertToRgba();
+        protected abstract RgbValues GetRgbValues();
 
         /// <summary>
         /// Converts this color to any other color type that inherits from <see cref="ConvertibleColor{TColor}"/>.
@@ -39,7 +51,7 @@ namespace DG.Color
         public T To<T>() where T : ConvertibleColor<T>
         {
             var color = UnsafeInstanceOf<T>.Shared;
-            return color.NewInstanceFrom(Values);
+            return color.NewInstanceFrom(Values, _alpha);
         }
 
         /// <summary>
@@ -48,16 +60,16 @@ namespace DG.Color
         /// <returns>The 32-bit ARGB value of this <see cref="BaseColor"/></returns>
         public int ToArgb()
         {
-            return Values.ToArgb();
+            return Values.ToArgb(_alpha);
         }
 
-        /// <inheritdoc cref="RgbaValues.ToHexString()"/>
+        /// <inheritdoc cref="RgbValues.ToHexString()"/>
         public string ToHexString()
         {
             return Values.ToHexString();
         }
 
-        /// <inheritdoc cref="RgbaValues.ToRgbaString()"/>
+        /// <inheritdoc cref="RgbValues.ToRgbaString()"/>
         public string ToRgbaString()
         {
             return Values.ToRgbaString();
