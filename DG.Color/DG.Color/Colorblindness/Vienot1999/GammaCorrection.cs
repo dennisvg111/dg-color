@@ -29,9 +29,9 @@ namespace DG.Color.Colorblindness.Vienot1999
 
         public static void PreComputeRemove()
         {
-            for (byte b = 0; b <= byte.MaxValue; b++)
+            for (int b = 0; b <= byte.MaxValue; b++)
             {
-                _removeLookUpTable[b] = CalculateRemove(b / 255f);
+                _removeLookUpTable[(byte)b] = CalculateRemove(b / 255f);
             }
         }
 

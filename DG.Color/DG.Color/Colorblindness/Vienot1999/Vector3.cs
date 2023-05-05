@@ -6,9 +6,20 @@
         private readonly float _v2;
         private readonly float _v3;
 
-        internal float V1 => _v1;
-        internal float V2 => _v2;
-        internal float V3 => _v3;
+        /// <summary>
+        /// The first componenent of this vector.
+        /// </summary>
+        public float V1 => _v1;
+
+        /// <summary>
+        /// The second component of this vector.
+        /// </summary>
+        public float V2 => _v2;
+
+        /// <summary>
+        /// The third component of this vector.
+        /// </summary>
+        public float V3 => _v3;
 
         public Vector3(float v1, float v2, float v3)
         {
