@@ -50,6 +50,11 @@ namespace DG.Color
         /// <returns></returns>
         public T To<T>() where T : ConvertibleColor<T>
         {
+            if (this is IConvertibleTo<T> convertible)
+            {
+                convertible.Convert(out T converted);
+                return converted;
+            }
             var color = UnsafeInstanceOf<T>.Shared;
             return color.NewInstanceFrom(Values, _alpha);
         }
