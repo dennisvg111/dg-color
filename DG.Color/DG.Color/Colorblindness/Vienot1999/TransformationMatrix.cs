@@ -35,21 +35,6 @@
         }
 
         /// <summary>
-        /// Performs right multiplication.
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static Vector3 operator *(TransformationMatrix left, Vector3 right)
-        {
-            var v1 = left._row1.V1 * right.V1 + left._row1.V2 * right.V2 + left._row1.V3 * right.V3;
-            var v2 = left._row2.V1 * right.V1 + left._row2.V2 * right.V2 + left._row2.V3 * right.V3;
-            var v3 = left._row3.V1 * right.V1 + left._row3.V2 * right.V2 + left._row3.V3 * right.V3;
-
-            return new Vector3(v1, v2, v3);
-        }
-
-        /// <summary>
         /// Returns a string representation of this <see cref="TransformationMatrix"/>.
         /// </summary>
         /// <returns></returns>
