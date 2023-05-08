@@ -11,7 +11,12 @@ namespace DG.Color
         /// <summary>
         /// A matrix used for converting RGB colors to XYZ.
         /// </summary>
-        public static IReadOnlyList<double> RGB_XYZ_MATRIX { get { return new double[] { 0.41242371206635076, 0.21265606784927693, 0.019331987577444885, 0.3575793401363035, 0.715157818248362, 0.11919267420354762, 0.1804662232369621, 0.0721864539171564, 0.9504491124870351 }; } }
+        public static IReadOnlyList<double> RGB_XYZ_MATRIX { get; } = new double[]
+        {
+            0.41242371206635076, 0.21265606784927693, 0.019331987577444885,
+            0.3575793401363035, 0.715157818248362, 0.11919267420354762,
+            0.1804662232369621, 0.0721864539171564, 0.9504491124870351
+        };
 
         /// <summary>
         /// A matrix used for converting XYZ colors to RGB
@@ -40,9 +45,6 @@ namespace DG.Color
                 d * (m[0] * m[4] - m[1] * m[3])
             };
         }
-
-
-
 
         private readonly double _x;
         private readonly double _y;

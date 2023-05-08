@@ -5,12 +5,12 @@
     /// </summary>
     public static class LmsConversion
     {
-        private static readonly Matrix3 _linearRgbToLmsMatrix = new Matrix3(
+        private static readonly TransformationMatrix _linearRgbToLmsMatrix = new TransformationMatrix(
             new Vector3(0.31399022f, 0.63951294f, 0.04649755f),
             new Vector3(0.15537241f, 0.75789446f, 0.08670142f),
             new Vector3(0.01775239f, 0.10944209f, 0.87256922f));
 
-        private static readonly Matrix3 _lmsToLinearRgbMatrix = new Matrix3(
+        private static readonly TransformationMatrix _lmsToLinearRgbMatrix = new TransformationMatrix(
             new Vector3(5.47221206f, -4.6419601f, 0.16963708f),
             new Vector3(-1.1252419f, 2.29317094f, -0.1678952f),
             new Vector3(0.02980165f, -0.19318073f, 1.16364789f));

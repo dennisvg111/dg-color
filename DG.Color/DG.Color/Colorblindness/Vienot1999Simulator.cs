@@ -4,14 +4,14 @@ namespace DG.Color.Colorblindness
 {
     public class Vienot1999Simulator
     {
-        private static readonly Matrix3 _daltonMatrix = new Matrix3(
+        private static readonly TransformationMatrix _daltonMatrix = new TransformationMatrix(
             new Vector3(0.0f, 0.0f, 0.0f),
             new Vector3(0.7f, 1.0f, 0.0f),
             new Vector3(0.7f, 0.0f, 1.0f));
 
         private readonly int[] _colorMap = new int[256 * 256 * 256];
 
-        private void CalculateColorMap(Matrix3 sim, float amount)
+        private void CalculateColorMap(TransformationMatrix sim, float amount)
         {
             for (int i = 0; i < _colorMap.Length; i++)
             {
@@ -21,7 +21,7 @@ namespace DG.Color.Colorblindness
             }
         }
 
-        public RgbValues Simulate(RgbValues values, Matrix3 sim, float amount)
+        public RgbValues Simulate(RgbValues values, TransformationMatrix sim, float amount)
         {
             var lms = LmsConversion.ConvertRgbToLms(values);
             var transformed = sim * lms;
@@ -34,7 +34,7 @@ namespace DG.Color.Colorblindness
             return new RgbValues(finalRed, finalGreen, finalBlue);
         }
 
-        public RgbValues Daltonize(RgbValues values, Matrix3 sim, float amount)
+        public RgbValues Daltonize(RgbValues values, TransformationMatrix sim, float amount)
         {
             var linRGB = LmsConversion.ConvertRgbToLinearRgb(values);
 
