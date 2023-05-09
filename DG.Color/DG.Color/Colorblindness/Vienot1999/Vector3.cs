@@ -36,7 +36,7 @@
         }
 
         /// <summary>
-        /// Subtracts the values of the right vector from the values of the left vector.
+        /// Adds the values of the right vector to the values of the left vector.
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
@@ -47,7 +47,7 @@
         }
 
         /// <summary>
-        /// Adds the values of the right vector to the values of the left vector.
+        /// Subtracts the values of the right vector from the values of the left vector.
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
