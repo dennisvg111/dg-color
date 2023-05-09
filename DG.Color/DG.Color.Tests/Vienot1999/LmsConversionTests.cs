@@ -64,7 +64,7 @@ namespace DG.Color.Tests.Vienot1999
                 new Vector3(0.0000f, 0.0000f, 0.9182f)
             );
 
-            return xyz_lms * new Vector3((float)xyz.X, (float)xyz.Y, (float)xyz.Z);
+            return xyz_lms.Transform(new Vector3((float)xyz.X, (float)xyz.Y, (float)xyz.Z));
         }
     }
 }
