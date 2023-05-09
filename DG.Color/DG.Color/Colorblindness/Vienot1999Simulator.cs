@@ -24,7 +24,7 @@ namespace DG.Color.Colorblindness
         public RgbValues Simulate(RgbValues values, TransformationMatrix sim, float amount)
         {
             var lms = LmsConversion.ConvertRgbToLms(values);
-            var transformed = sim.Transform(lms);
+            var transformed = sim * lms;
             var simulatedValues = LmsConversion.ConvertLmsToRgb(transformed);
 
             byte finalRed = (byte)(values.Red * (1.0 - amount) + simulatedValues.Red * amount);
@@ -39,11 +39,11 @@ namespace DG.Color.Colorblindness
             var linRGB = LmsConversion.ConvertRgbToLinearRgb(values);
 
             var lms = LmsConversion.ConvertLinearRgbToLms(linRGB);
-            var transformed = sim.Transform(lms);
+            var transformed = sim * lms;
             var simRGB = LmsConversion.ConvertLmsToLinearRgb(transformed);
 
             Vector3 error = linRGB - simRGB;
-            Vector3 correction = _daltonMatrix.Transform(error);
+            Vector3 correction = _daltonMatrix * error;
             Vector3 daltonizedLinearRgb = correction + linRGB;
 
             var daltonizedValues = LmsConversion.ConvertLinearRgbToRgb(daltonizedLinearRgb);

@@ -47,7 +47,7 @@
         /// <returns></returns>
         public static Vector3 ConvertLinearRgbToLms(Vector3 linearRgb)
         {
-            return _linearRgbToLmsMatrix.Transform(linearRgb);
+            return _linearRgbToLmsMatrix * linearRgb;
         }
 
         /// <summary>
@@ -68,7 +68,7 @@
         /// <returns></returns>
         public static Vector3 ConvertLmsToLinearRgb(Vector3 lms)
         {
-            return _lmsToLinearRgbMatrix.Transform(lms);
+            return _lmsToLinearRgbMatrix * lms;
         }
 
         /// <summary>

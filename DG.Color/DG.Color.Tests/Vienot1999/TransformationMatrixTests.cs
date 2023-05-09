@@ -57,5 +57,16 @@ namespace DG.Color.Tests.Vienot1999
             Assert.Equal(expected.V2, actual.V2);
             Assert.Equal(expected.V3, actual.V3);
         }
+
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void Multiplication_Works(Vector3 input, TransformationMatrix matrix, Vector3 expected)
+        {
+            var actual = matrix * input;
+
+            Assert.Equal(expected.V1, actual.V1);
+            Assert.Equal(expected.V2, actual.V2);
+            Assert.Equal(expected.V3, actual.V3);
+        }
     }
 }
