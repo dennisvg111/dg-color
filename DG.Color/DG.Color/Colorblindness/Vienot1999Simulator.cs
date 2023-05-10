@@ -1,13 +1,14 @@
 ﻿using DG.Color.Colorblindness.Vienot1999;
+using DG.Color.Utilities;
 
 namespace DG.Color.Colorblindness
 {
     public class Vienot1999Simulator
     {
-        private static readonly TransformationMatrix _daltonMatrix = new TransformationMatrix(
-            new Vector3(0.0f, 0.0f, 0.0f),
-            new Vector3(0.7f, 1.0f, 0.0f),
-            new Vector3(0.7f, 0.0f, 1.0f));
+        private static readonly TransformationMatrix _daltonMatrix = TransformationMatrix
+            .WithRow(0.0f, 0.0f, 0.0f)
+            .WithRow(0.7f, 1.0f, 0.0f)
+            .WithRow(0.7f, 0.0f, 1.0f);
 
         private readonly int[] _colorMap = new int[256 * 256 * 256];
 
@@ -42,9 +43,9 @@ namespace DG.Color.Colorblindness
             var transformed = sim.Transform(lms);
             var simRGB = LmsConversion.ConvertLmsToLinearRgb(transformed);
 
-            Vector3 error = linRGB - simRGB;
-            Vector3 correction = _daltonMatrix.Transform(error);
-            Vector3 daltonizedLinearRgb = correction + linRGB;
+            ColorVector error = linRGB - simRGB;
+            ColorVector correction = _daltonMatrix.Transform(error);
+            ColorVector daltonizedLinearRgb = correction + linRGB;
 
             var daltonizedValues = LmsConversion.ConvertLinearRgbToRgb(daltonizedLinearRgb);
 

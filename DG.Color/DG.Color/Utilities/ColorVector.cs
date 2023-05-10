@@ -1,38 +1,38 @@
-﻿namespace DG.Color.Colorblindness.Vienot1999
+﻿namespace DG.Color.Utilities
 {
-    public readonly struct Vector3
+    public readonly struct ColorVector
     {
-        private readonly float _v1;
-        private readonly float _v2;
-        private readonly float _v3;
+        private readonly float _x;
+        private readonly float _y;
+        private readonly float _z;
 
         /// <summary>
         /// The first componenent of this vector.
         /// </summary>
-        public float V1 => _v1;
+        public float X => _x;
 
         /// <summary>
         /// The second component of this vector.
         /// </summary>
-        public float V2 => _v2;
+        public float Y => _y;
 
         /// <summary>
         /// The third component of this vector.
         /// </summary>
-        public float V3 => _v3;
+        public float Z => _z;
 
-        public Vector3(float v1, float v2, float v3)
+        public ColorVector(float v1, float v2, float v3)
         {
-            _v1 = v1;
-            _v2 = v2;
-            _v3 = v3;
+            _x = v1;
+            _y = v2;
+            _z = v3;
         }
 
-        public Vector3(Vector3 v)
+        public ColorVector(ColorVector v)
         {
-            _v1 = v._v1;
-            _v2 = v._v2;
-            _v3 = v._v3;
+            _x = v._x;
+            _y = v._y;
+            _z = v._z;
         }
 
         /// <summary>
@@ -41,9 +41,9 @@
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Vector3 operator +(Vector3 left, Vector3 right)
+        public static ColorVector operator +(ColorVector left, ColorVector right)
         {
-            return new Vector3(left._v1 + right._v1, left._v2 + right._v2, left._v3 + right._v3);
+            return new ColorVector(left._x + right._x, left._y + right._y, left._z + right._z);
         }
 
         /// <summary>
@@ -52,18 +52,18 @@
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Vector3 operator -(Vector3 left, Vector3 right)
+        public static ColorVector operator -(ColorVector left, ColorVector right)
         {
-            return new Vector3(left._v1 - right._v1, left._v2 - right._v2, left._v3 - right._v3);
+            return new ColorVector(left._x - right._x, left._y - right._y, left._z - right._z);
         }
 
         /// <summary>
-        /// Returns a string representation of this <see cref="Vector3"/>.
+        /// Returns a string representation of this <see cref="ColorVector"/>.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{V1} {V2} {V3}";
+            return $"{X} {Y} {Z}";
         }
     }
 }
