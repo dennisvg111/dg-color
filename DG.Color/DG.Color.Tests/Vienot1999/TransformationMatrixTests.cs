@@ -63,5 +63,29 @@ namespace DG.Color.Tests.Vienot1999
             Assert.Equal(expected.Y, actual.Y);
             Assert.Equal(expected.Z, actual.Z);
         }
+
+        [Fact]
+        public void Inverse_Works()
+        {
+            var matrix = TransformationMatrix
+                .WithRow(1, 2, 3)
+                .WithRow(0, 1, 4)
+                .WithRow(5, 6, 0);
+            var expectedMatrix = TransformationMatrix
+                .WithRow(-24, 18, 5)
+                .WithRow(20, -15, -4)
+                .WithRow(-5, 4, 1);
+            var invertedMatrix = matrix.Inverse();
+
+            var expected = new ColorVector(12, 40, 5);
+
+            var transformed = matrix.Transform(expected);
+            var actual = invertedMatrix.Transform(transformed);
+
+            Assert.Equal(expectedMatrix.ToString(), invertedMatrix.ToString());
+            Assert.Equal(expected.X, actual.X);
+            Assert.Equal(expected.Y, actual.Y);
+            Assert.Equal(expected.Z, actual.Z);
+        }
     }
 }

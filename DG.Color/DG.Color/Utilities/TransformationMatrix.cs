@@ -36,6 +36,45 @@ namespace DG.Color.Utilities
         }
 
         /// <summary>
+        /// Calculates the correct inverse (not transposed) of the current matrix.
+        /// </summary>
+        /// <returns></returns>
+        public TransformationMatrix Inverse()
+        {
+            var determinant = GetDeterminant();
+            if (determinant == 0)
+            {
+                return new TransformationMatrix();
+            }
+            var inverseDeterminant = 1f / determinant;
+
+            return new TransformationMatrix(
+                new MatrixRow(
+                    inverseDeterminant * (_row2.Y * _row3.Z - _row3.Y * _row2.Z),
+                    inverseDeterminant * (-1 * (_row1.Y * _row3.Z - _row3.Y * _row1.Z)),
+                    inverseDeterminant * (_row1.Y * _row2.Z - _row2.Y * _row1.Z)
+                ),
+                new MatrixRow(
+                    inverseDeterminant * (-1 * (_row2.X * _row3.Z - _row3.X * _row2.Z)),
+                    inverseDeterminant * (_row1.X * _row3.Z - _row3.X * _row1.Z),
+                    inverseDeterminant * (-1 * (_row1.X * _row2.Z - _row2.X * _row1.Z))
+                ),
+                new MatrixRow(
+                    inverseDeterminant * (_row2.X * _row3.Y - _row3.X * _row2.Y),
+                    inverseDeterminant * (-1 * (_row1.X * _row3.Y - _row3.X * _row1.Y)),
+                    inverseDeterminant * (_row1.X * _row2.Y - _row2.X * _row1.Y)
+                )
+            );
+        }
+
+        private float GetDeterminant()
+        {
+            return _row1.X * (_row2.Y * _row3.Z - _row3.Y * _row2.Z) -
+                   _row2.X * (_row1.Y * _row3.Z - _row3.Y * _row1.Z) +
+                   _row3.X * (_row1.Y * _row2.Z - _row2.Y * _row1.Z);
+        }
+
+        /// <summary>
         /// Returns a string representation of this <see cref="TransformationMatrix"/>.
         /// </summary>
         /// <returns></returns>

@@ -6,6 +6,10 @@
         private readonly float _y;
         private readonly float _z;
 
+        internal float X => _x;
+        internal float Y => _y;
+        internal float Z => _z;
+
         public MatrixRow(float x, float y, float z)
         {
             _x = x;

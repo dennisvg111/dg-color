@@ -21,18 +21,11 @@
         /// </summary>
         public float Z => _z;
 
-        public ColorVector(float v1, float v2, float v3)
+        public ColorVector(float x, float y, float z)
         {
-            _x = v1;
-            _y = v2;
-            _z = v3;
-        }
-
-        public ColorVector(ColorVector v)
-        {
-            _x = v._x;
-            _y = v._y;
-            _z = v._z;
+            _x = x;
+            _y = y;
+            _z = z;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Color.Utilities;
+using System;
 
 namespace DG.Color.Colorblindness
 {
@@ -41,15 +42,18 @@ namespace DG.Color.Colorblindness
             var dZ = ngz - xyzColor.Z;
 
             // find out how much to shift sim color toward neutral to fit in RGB space
-            var M = XyzColor.XYZ_RGB_MATRIX;
-            var dR = dX * M[0] + dLargeY * M[3] + dZ * M[6];
-            var dG = dX * M[1] + dLargeY * M[4] + dZ * M[7];
-            var dB = dX * M[2] + dLargeY * M[5] + dZ * M[8];
+            ColorVector dXyz = new ColorVector((float)dX, dLargeY, (float)dZ);
+            var dRgb = XyzColor.XyzToRgbMatrix.Transform(dXyz);
+            var dR = dRgb.X;
+            var dG = dRgb.Y;
+            var dB = dRgb.Z;
 
             // convert d to linear RGB
-            var tempR = xyzColor.X * M[0] + xyzColor.Y * M[3] + xyzColor.Z * M[6];
-            var tempG = xyzColor.X * M[1] + xyzColor.Y * M[4] + xyzColor.Z * M[7];
-            var tempB = xyzColor.X * M[2] + xyzColor.Y * M[5] + xyzColor.Z * M[8];
+            var xyzVector = new ColorVector((float)xyzColor.X, (float)xyzColor.Y, (float)xyzColor.Z);
+            var tempRgb = XyzColor.XyzToRgbMatrix.Transform(xyzVector);
+            double tempR = tempRgb.X;
+            double tempG = tempRgb.Y;
+            double tempB = tempRgb.Z;
 
             var adjustR = ((tempR < 0 ? 0 : 1) - tempR) / dR;
             var adjustG = ((tempG < 0 ? 0 : 1) - tempG) / dG;

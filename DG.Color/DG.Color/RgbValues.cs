@@ -1,4 +1,5 @@
-﻿using DG.Common;
+﻿using DG.Color.Utilities;
+using DG.Common;
 using System;
 
 namespace DG.Color
@@ -162,6 +163,15 @@ namespace DG.Color
                 (byte)Math.Round(green, MidpointRounding.AwayFromZero),
                 (byte)Math.Round(blue, MidpointRounding.AwayFromZero)
             );
+        }
+        /// <summary>
+        /// Returns a new instance of <see cref="RgbValues"/> where the red, green, and blue values are represented as a <see cref="ColorVector"/>, with values between 0 and 1.
+        /// </summary>
+        /// <param name="rgb"></param>
+        /// <returns></returns>
+        public static RgbValues Round(ColorVector rgb)
+        {
+            return Round(rgb.X * 255, rgb.Y * 255, rgb.Z * 255);
         }
 
         /// <summary>

@@ -3,7 +3,7 @@
     /// <summary>
     /// A color in the CIE XyY color space.
     /// </summary>
-    public class XyyColor : ConvertibleColor<XyyColor>
+    public class XyyColor : ConvertibleColor<XyyColor>, IConvertibleTo<XyzColor>
     {
         private readonly double _x;
         private readonly double _smallY;
@@ -41,28 +41,26 @@
         /// <inheritdoc/>
         protected override RgbValues GetRgbValues()
         {
-            double newX = (_x * _largeY) / _smallY;
-            double newY = _largeY;
-            double newZ = ((1 - _x - _smallY) * _largeY) / _smallY;
-
-            var temp = new XyzColor(newX, newY, newZ, Alpha);
-            return temp.Values;
+            Convert(out XyzColor xyz);
+            return xyz.Values;
         }
 
         /// <inheritdoc/>
         protected override XyyColor CreateFrom(RgbValues values, float alpha)
         {
-            var o = new RgbColor(values, alpha).To<XyzColor>();
-            var n = o.X + o.Y + o.Z;
+            var xyz = new RgbColor(values, alpha).To<XyzColor>();
+            xyz.Convert(out XyyColor color);
+            return color;
+        }
 
-            if (n == 0)
-            {
-                return new XyyColor(0, 0, o.Y, alpha);
-            }
-            double x = o.X / n;
-            double smallY = o.Y / n;
-            double largeY = o.Y;
-            return new XyyColor(x, smallY, largeY, alpha);
+        /// <inheritdoc/>
+        public void Convert(out XyzColor color)
+        {
+            double newX = (_x * _largeY) / _smallY;
+            double newY = _largeY;
+            double newZ = ((1 - _x - _smallY) * _largeY) / _smallY;
+
+            color = new XyzColor(newX, newY, newZ, Alpha);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Color.Utilities;
+using System;
 using System.Collections.Generic;
 
 namespace DG.Color.Colorblindness.Vienot1999
@@ -74,6 +75,16 @@ namespace DG.Color.Colorblindness.Vienot1999
                 return 12.92f * s;
             }
             return (float)(1.055 * Math.Pow(s, 0.41666) - 0.055);
+        }
+
+        public static ColorVector Apply(ColorVector input)
+        {
+            return new ColorVector(CalculateApply(input.X), CalculateApply(input.Y), CalculateApply(input.Z));
+        }
+
+        public static ColorVector Remove(ColorVector input)
+        {
+            return new ColorVector(CalculateRemove(input.X), CalculateRemove(input.Y), CalculateRemove(input.Z));
         }
     }
 }
