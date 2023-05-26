@@ -3,7 +3,7 @@
     <ProjectGuid>{6B0A4893-D274-4B44-9F97-7E86C266F505}</ProjectGuid>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>DG.Color</AssemblyTitle>
-    <AssemblyVersion>2.1.1</AssemblyVersion>
+    <AssemblyVersion>2.1.2</AssemblyVersion>
     <Product>DG.Color</Product>
     <Copyright>Copyright ©  2023</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -49,7 +49,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Dennisvg.DG.Common" Version="1.7.5" />
+    <PackageReference Include="Dennisvg.DG.Common" Version="1.8.2" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
