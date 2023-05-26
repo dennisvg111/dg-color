@@ -10,18 +10,6 @@ namespace DG.Color.Colorblindness
             .WithRow(0.7f, 1.0f, 0.0f)
             .WithRow(0.7f, 0.0f, 1.0f);
 
-        private readonly int[] _colorMap = new int[256 * 256 * 256];
-
-        private void CalculateColorMap(TransformationMatrix sim, float amount)
-        {
-            for (int i = 0; i < _colorMap.Length; i++)
-            {
-                var startValues = RgbValues.FromArgb(i, out _);
-                var simulated = Simulate(startValues, sim, amount);
-                _colorMap[i] = simulated.ToArgb(1);
-            }
-        }
-
         public RgbValues Simulate(RgbValues values, TransformationMatrix sim, float amount)
         {
             var lms = LmsConversion.ConvertRgbToLms(values);
